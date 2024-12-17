@@ -1,3 +1,9 @@
+## DATABASE
+**SQL SERVER EN DOCKER(LINUX)**
+```
+// DESCARGAR LA IMAGEN DE SQL SERVER
+docker pull mcr.microsoft.com/mssql/server:2022-latest
+```
 **Backend**
 - Node V22.12.0 LTS 
 - npm  V10.9.0
