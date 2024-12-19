@@ -1,9 +1,10 @@
+-- Active: 1734408453252@@127.0.0.1@1433@GDA00203OTDouglasGomez
 -- Crea la base de datos
 CREATE DATABASE GDA00203OTDouglasGomez;
 
 -- Tabla Estados
 CREATE TABLE estados (
-    idestados INT IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     nombre VARCHAR(45) NOT NULL
 );
 
@@ -15,19 +16,18 @@ INSERT INTO estados (nombre) VALUES
 
 -- Tabla Rol
 CREATE TABLE rol (
-    idrol INT IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     nombre VARCHAR(45) NOT NULL
 );
 
 INSERT INTO rol (nombre) VALUES 
-('Administrador'), 
 ('Cliente'), 
-('Vendedor');
+('Operador');
 
 
 -- Tabla Clientes
 CREATE TABLE Clientes (
-    idClientes INT IDENTITY PRIMARY KEY,
+    id INT IDENTITY PRIMARY KEY,
     razon_social VARCHAR(245) NOT NULL,
     nombre_comercial VARCHAR(245),
     direccion_entrega VARCHAR(255),
@@ -43,25 +43,25 @@ INSERT INTO Clientes (razon_social, nombre_comercial, direccion_entrega, telefon
 
 -- Tabla Usuarios
 CREATE TABLE usuarios (
-    idusuarios INT IDENTITY PRIMARY KEY,
-    rol_idrol INT NOT NULL,
-    estados_idestados INT NOT NULL,
-    Clientes_idClientes INT NULL,
+    id INT IDENTITY PRIMARY KEY,
+    rol_id INT NOT NULL,
+    estados_id INT NOT NULL,
+    Clientes_id INT NULL,
     correo_electronico VARCHAR(100) NOT NULL UNIQUE,
     nombre_completo VARCHAR(100),
     password VARCHAR(255) NOT NULL,
     telefono VARCHAR(15),
     fecha_nacimiento DATE,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (rol_idrol) REFERENCES rol(idrol),
-    FOREIGN KEY (estados_idestados) REFERENCES estados(idestados),
-    FOREIGN KEY (Clientes_idClientes) REFERENCES Clientes(idClientes) ON DELETE SET NULL
+    FOREIGN KEY (rol_id) REFERENCES rol(id),
+    FOREIGN KEY (estados_id) REFERENCES estados(id),
+    FOREIGN KEY (Clientes_id) REFERENCES Clientes(id) ON DELETE SET NULL
 );
 
-INSERT INTO usuarios (rol_idrol, estados_idestados, Clientes_idClientes, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento) VALUES
-(1, 1, NULL, 'admin@example.com', 'Administrador General', 'hashed_password_123', '5551234567', '1980-01-01'),
-(2, 1, 1, 'cliente1@xyz.com', 'Juan Pérez', 'hashed_password_456', '5559876543', '1990-05-20'),
-(3, 2, NULL, 'vendedor1@example.com', 'Ana López', 'hashed_password_789', '5555678910', '1985-08-15');
+INSERT INTO usuarios (rol_id, estados_id, Clientes_id, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento) VALUES
+(1, 1, 1, 'cliente1@xyz.com', 'Administrador General', '1234', '5551234567', '1980-01-01'),
+(1, 1, 1, 'cliente2@xyz.com', 'Juan Pérez', '1234', '5559876543', '1990-05-20'),
+(2, 1, NULL, 'operador1@xyz.com', 'Ana López', '1234', '5555678910', '1985-08-15');
 
 -- Tabla CategoriaProductos
 CREATE TABLE CategoriaProductos (

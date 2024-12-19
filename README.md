@@ -24,7 +24,7 @@ docker ps -a
 se inserto la opcion para importar los module "type:module"
 
 **install Module**
-- express -> Nos proporcionar las routes para la comuniciacion con el servidor
+- express -> Nos proporcionar las routes para la comuniciacion con el servidor.
 -- LINK: https://www.npmjs.com/package/express 
 - mssql -> Modulo para conectarse a SQL SERVE 
 -- LINK: https://www.npmjs.com/package/mssql 
@@ -33,10 +33,16 @@ se inserto la opcion para importar los module "type:module"
 - morgan -> 
 
 ***Ejecutar el SCRIPT (nombre del script es dev)***
-- npm run dev 
+```
+npm run dev 
+```
 
-
-Realizar el Backend
-[Guia-Backend](https://www.youtube.com/watch?v=VuQAF-44Lo0)
-Correr Docker SQL-SERVER
-[Contener-SQL-SERVER](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver16&pivots=cs1-bash&tabs=cli)
+```
+npx is-my-node-vulnerable
+```
+## Referencias
+#### Realizar el Backend
+- [Guia-Backend](https://www.youtube.com/watch?v=VuQAF-44Lo0)
+- [Autenticación-JWT](https://www.youtube.com/watch?v=UqnnhAZxRac)
+### Correr Docker SQL-SERVER
+- [Contener-SQL-SERVER](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver16&pivots=cs1-bash&tabs=cli)

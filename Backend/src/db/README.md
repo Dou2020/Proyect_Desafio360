@@ -1,5 +1,5 @@
 ## Conexión con Variables de entorno
-```
+```javascript
 const sql = require('mssql')
 
 const sqlConfig = {
@@ -30,7 +30,7 @@ const sqlConfig = {
 })()
 ```
 ## Conexión con Windows Authetication
-```
+```javascript
 const sql = require('mssql/msnodesqlv8');
 
 const config = {
