@@ -63,7 +63,20 @@ INSERT INTO usuarios (rol_id, estados_id, Clientes_id, correo_electronico, nombr
 (1, 1, 1, 'cliente2@xyz.com', 'Juan Pérez', '1234', '5559876543', '1990-05-20'),
 (2, 1, NULL, 'operador1@xyz.com', 'Ana López', '1234', '5555678910', '1985-08-15');
 
-SELECT * FROM usuarios;
+-- SELECT Usuarios
+SELECT a.password, a.correo_electronico, b.nombre, c.nombre 
+    FROM usuarios a 
+    JOIN rol b 
+    ON a.rol_id = b.id 
+    JOIN estados c 
+    ON c.id = a.estados_id;
+
+SELECT a.password, a.correo_electronico, b.nombre
+    FROM usuarios a 
+    JOIN rol b 
+    ON a.rol_id = b.id 
+    WHERE a.estados_id = 1;
+
 
 -- Tabla CategoriaProductos
 CREATE TABLE CategoriaProductos (
@@ -128,6 +141,54 @@ CREATE TABLE OrdenDetalles (
 -- ===============================
 -- Procedimientos para Insertar
 -- ===============================
+
+-- Login de Usuario
+CREATE PROCEDURE Autenticacion
+    @correo VARCHAR(100),
+    @password VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Variable para almacenar el rol del usuario
+    DECLARE @usuario_rol INT;
+
+    BEGIN TRY
+        -- Buscar el rol del usuario si las credenciales son válidas y el estado es activo
+        SELECT @usuario_rol = rol_id
+        FROM usuarios 
+        WHERE correo_electronico = @correo 
+            AND password = @password
+            AND estados_id = 1;
+        
+        -- Validar si se encontró el usuario
+        IF @usuario_rol IS NOT NULL
+        BEGIN
+            -- Devolver el rol del usuario
+            SELECT 
+                'Autenticación exitosa' AS mensaje,
+                @usuario_rol AS usuario_rol;
+        END
+        ELSE
+        BEGIN
+            -- Generar un error si las credenciales no son válidas
+            RAISERROR('Credenciales inválidas.', 16, 1);
+        END
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores inesperados
+        SELECT 
+            ERROR_MESSAGE() AS error_mensaje,
+            ERROR_SEVERITY() AS severidad,
+            ERROR_STATE() AS estado;
+    END CATCH
+END;
+-- VALIDAR EL PROCEDIMIENTO autenticacion;
+EXEC autenticacion  'cliente1@xyz.com', '1234';;
+
+    SELECT rol_id
+    FROM usuarios 
+    WHERE estados_id = 1;
 
 -- Insertar en estados
 CREATE PROCEDURE InsertarEstado

@@ -16,9 +16,8 @@ export const getConnection = async () => {
   try {
     const pool = await sql.connect(dbSettings)
     console.log("-----conexion realizada-----")
-    const result = await pool.request().query("SELECT * FROM usuarios")
-    console.log(result);
-    
+    //const result = await pool.request().query("SELECT * FROM usuarios")
+    //console.log(result);
     return pool
   } catch (error) {
     console.error(error)
