@@ -63,6 +63,8 @@ INSERT INTO usuarios (rol_id, estados_id, Clientes_id, correo_electronico, nombr
 (1, 1, 1, 'cliente2@xyz.com', 'Juan Pérez', '1234', '5559876543', '1990-05-20'),
 (2, 1, NULL, 'operador1@xyz.com', 'Ana López', '1234', '5555678910', '1985-08-15');
 
+SELECT * FROM usuarios;
+
 -- Tabla CategoriaProductos
 CREATE TABLE CategoriaProductos (
     idCategoriaProductos INT IDENTITY PRIMARY KEY,

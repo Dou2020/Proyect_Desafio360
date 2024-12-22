@@ -16,5 +16,8 @@
     "express": "^4.21.2",
     "morgan": "^1.10.0",
     "mssql": "^11.0.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
   }
 }

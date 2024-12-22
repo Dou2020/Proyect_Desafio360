@@ -1,4 +1,4 @@
-import sql from "mssql";
+import sql from "mssql"
 process.loadEnvFile()
 
 export const dbSettings = {
@@ -14,12 +14,14 @@ export const dbSettings = {
 
 export const getConnection = async () => {
   try {
-    const pool = await sql.connect(dbSettings);
-    console.log("-----conexion realizada-----");
+    const pool = await sql.connect(dbSettings)
+    console.log("-----conexion realizada-----")
+    const result = await pool.request().query("SELECT * FROM usuarios")
+    console.log(result);
     
-    return pool;
+    return pool
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 };
 
