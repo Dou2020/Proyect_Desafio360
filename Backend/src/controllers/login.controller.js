@@ -15,10 +15,13 @@ export const getautentication = async (req,res) =>{
 
         // Procedimiento almacenado autenticacion
         await request.execute('autenticacion', async (err, result) => {
-            // salida de los usuarios
-            console.log(result.recordset);
+            if (err) {
+                console.log(err);
+            } else {
+                // salida de los usuarios
+                console.log(result.recordset);
+            }
         })
-        
         
         res.send({email: email, password: password})
     } catch (error) {
