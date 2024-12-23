@@ -57,11 +57,11 @@ CREATE TABLE usuarios (
     FOREIGN KEY (estados_id) REFERENCES estados(id),
     FOREIGN KEY (Clientes_id) REFERENCES Clientes(id) ON DELETE SET NULL
 );
-
+-- password encryt en texto plano '1234'
 INSERT INTO usuarios (rol_id, estados_id, Clientes_id, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento) VALUES
-(1, 1, 1, 'cliente1@xyz.com', 'Administrador General', '1234', '5551234567', '1980-01-01'),
-(1, 1, 1, 'cliente2@xyz.com', 'Juan Pérez', '1234', '5559876543', '1990-05-20'),
-(2, 1, NULL, 'operador1@xyz.com', 'Ana López', '1234', '5555678910', '1985-08-15');
+(1, 1, 1, 'cliente1@xyz.com', 'Marco Perez', '$2b$10$k7hzgsA9yTFlDfjJgVrMlud5c3LOt7zi1EeaOqjjyXP0Xc6jzJXqG', '5551234567', '1980-01-01'),
+(1, 1, 1, 'cliente2@xyz.com', 'Juan Pérez', '$2b$10$k7hzgsA9yTFlDfjJgVrMlud5c3LOt7zi1EeaOqjjyXP0Xc6jzJXqG', '5559876543', '1990-05-20'),
+(2, 1, NULL, 'operador1@xyz.com', 'Ana López', '$2b$10$k7hzgsA9yTFlDfjJgVrMlud5c3LOt7zi1EeaOqjjyXP0Xc6jzJXqG', '5555678910', '1985-08-15');
 
 -- SELECT Usuarios
 SELECT a.password, a.correo_electronico, b.nombre, c.nombre 
@@ -138,10 +138,6 @@ CREATE TABLE OrdenDetalles (
 
 -- Procedimientos almacenados --
 
--- ===============================
--- Procedimientos para Insertar
--- ===============================
-
 -- Login de Usuario
 CREATE PROCEDURE Autenticacion
     @correo VARCHAR(100),
@@ -184,11 +180,15 @@ BEGIN
     END CATCH
 END;
 -- VALIDAR EL PROCEDIMIENTO autenticacion;
-EXEC autenticacion  'cliente1@xyz.com', '1234';;
+EXEC autenticacion  'cliente1@xyz.com', '1234';
 
     SELECT rol_id
     FROM usuarios 
     WHERE estados_id = 1;
+
+-- ===============================
+-- Procedimientos para Insertar
+-- ===============================
 
 -- Insertar en estados
 CREATE PROCEDURE InsertarEstado
@@ -208,33 +208,45 @@ BEGIN
     VALUES (@nombre);
 END;
 
--- Insertar en Clientes
-CREATE PROCEDURE InsertarCliente
+-- Insertar Cliente y Usuario en un procedimiento
+CREATE PROCEDURE InsertarClienteUsuario
     @razon_social VARCHAR(245),
     @nombre_comercial VARCHAR(245),
     @direccion_entrega VARCHAR(255),
-    @telefono VARCHAR(15),
-    @email VARCHAR(100)
-AS
-BEGIN
-    INSERT INTO Clientes (razon_social, nombre_comercial, direccion_entrega, telefono, email)
-    VALUES (@razon_social, @nombre_comercial, @direccion_entrega, @telefono, @email);
-END;
-
--- Insertar en usuarios
-CREATE PROCEDURE InsertarUsuario
-    @rol_idrol INT,
-    @estados_idestados INT,
-    @Clientes_idClientes INT = NULL,
+    @telefono_cliente VARCHAR(15),
+    @email_cliente VARCHAR(100),
+    
+    @rol_id INT,
+    @estados_id INT,
     @correo_electronico VARCHAR(100),
     @nombre_completo VARCHAR(100),
     @password VARCHAR(255),
-    @telefono VARCHAR(15),
+    @telefono_usuario VARCHAR(15),
     @fecha_nacimiento DATE
 AS
 BEGIN
-    INSERT INTO usuarios (rol_idrol, estados_idestados, Clientes_idClientes, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento)
-    VALUES (@rol_idrol, @estados_idestados, @Clientes_idClientes, @correo_electronico, @nombre_completo, @password, @telefono, @fecha_nacimiento);
+    -- Declarar variables locales
+    DECLARE @Clientes_id INT;
+
+    -- Iniciar transacción para asegurar integridad
+    BEGIN TRANSACTION;
+
+    -- Insertar cliente
+    INSERT INTO Clientes (razon_social, nombre_comercial, direccion_entrega, telefono, email)
+    VALUES (@razon_social, @nombre_comercial, @direccion_entrega, @telefono_cliente, @email_cliente);
+    
+    -- Obtener el ID del cliente recién insertado
+    SET @Clientes_id = SCOPE_IDENTITY(); -- Obtiene el último ID insertado en la tabla Clientes
+
+    -- Insertar el usuario
+    INSERT INTO usuarios (rol_id, estados_id, Clientes_id, correo_electronico, nombre_completo, password, telefono, fecha_nacimiento)
+    VALUES (@rol_id, @estados_id, @Clientes_id, @correo_electronico, @nombre_completo, @password, @telefono_usuario, @fecha_nacimiento);
+
+    -- Confirmar la transacción
+    COMMIT;
+    
+    -- Devolver el ID del cliente insertado
+    SELECT @Clientes_id AS Clientes_id;
 END;
 
 -- Insertar en CategoriaProductos

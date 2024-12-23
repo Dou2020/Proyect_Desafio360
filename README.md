@@ -25,11 +25,10 @@ se inserto la opcion para importar los module "type:module"
 
 **install Module**
 - [Express](https://www.npmjs.com/package/express) -> Nos proporcionar las routes para la comuniciacion con el servidor.
-- mssql -> Modulo para conectarse a SQL SERVE 
--- LINK: https://www.npmjs.com/package/mssql 
-- cors -> mildware nos servira para verificar que dispositivos se pueden conectar al servidor
--- LINK: https://www.npmjs.com/package/cors 
-- morgan -> 
+- [JSONWebToken](https://www.npmjs.com/package/jsonwebtoken) -> Agregar token para autenticacion.
+- [MSSQL](https://www.npmjs.com/package/mssql) -> realizar la conexion y las consultas en SQL SERVE.
+- [CORS](https://www.npmjs.com/package/cors) -> mildware nos servira para verificar que dispositivos se pueden conectar al servidor.
+- [Bcrypt](https://www.npmjs.com/package/bcrypt) -> se utiliza para encriptar y verificar la contrasena.
 
 ***Ejecutar el SCRIPT (nombre del script es dev)***
 ```
